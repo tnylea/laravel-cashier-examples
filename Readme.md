@@ -49,6 +49,55 @@ STRIPE_KEY=pk_test_RKDJpn1L9eRdJOBF3WfaLKRR00VbHCT6ju
 STRIPE_SECRET=sk_test_SomeReallyL0ngRand0m5tring...
 ```
 
+### 4. Create a new Stripe Product
+
+When a user enters their Credit Card Info, they are signing up for your `product` and Stripe needs to know a bit about your product, so we need to create a new product inside of Stripe.
+
+Inside your stripe dashboard, go to **Billing->Products**, and click to Add a `New` product:
+
+![register page image](/public/img/products.png)
+
+For this example, I will give my a product a name of `Laravel Cashier Example`, and click **Create Product**:
+
+Next, we need to create a Pricing Plan for our product. We can add as many Pricing plans to a product as we would like, but in this example we will just add one pricing plan called `starter`, this will be the plan **ID**:
+
+![register page image](/public/img/pricing.png)
+
+Then click on **Add pricing plan**, and we've just created our first pricing plan 🙌
+
+
+### 5. Run The Database Migrations
+
+```
+php artisan migrate
+```
+
+### 6. Test it out 🤙 You're now accepting payments 💳
+
+#### Example 1 Test
+
+For **example1** (master), you can visit your app `/register` route and you will see the Credit Card field:
+
+![register page image](/public/img/register.png)
+
+Try signing up with the following credentials to test it out:
+
+```
+Credit Card Number: 4242 4242 4242 4242
+Expires: 04/24
+CVC Code: 242
+Zip: 42424
+```
+
+Awesome right!
+
+#### Example 2 Test
+
+Make sure to checkout the `example2` branch to "Checkout" this example:
+
+
+
+
 ## Payment Up Front on the Register Page (master branch)
 
 You may want to accept payments by requiring payment upon registration (with trial days or without). This functionality is stored in the `master` branch. Here are the steps
