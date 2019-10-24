@@ -97,7 +97,7 @@ And after signing up, you will be redirected to your application dashboard:
 
 There will now be a new user in your database. You will also see a new entry in the `subscriptions` table:
 
-![database image](/public/img/subscriptions.png)
+![database image](/public/img/subscription.png)
 
 Additionally, if you login to your stripe dashboard you will see that you now have a new customer.
 
