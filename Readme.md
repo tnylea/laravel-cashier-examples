@@ -55,13 +55,15 @@ When a user enters their Credit Card Info, they are signing up for your `product
 
 Inside your stripe dashboard, go to **Billing->Products**, and click to Add a `New` product:
 
-![register page image](/public/img/products.png)
+![products page image](/public/img/products.png)
 
 For this example, I will give my a product a name of `Laravel Cashier Example`, and click **Create Product**:
 
+![stripe plan image](/public/img/product.png)
+
 Next, we need to create a Pricing Plan for our product. We can add as many Pricing plans to a product as we would like, but in this example we will just add one pricing plan called `starter`, this will be the plan **ID**:
 
-![register page image](/public/img/pricing.png)
+![pricing page image](/public/img/pricing.png)
 
 Then click on **Add pricing plan**, and we've just created our first pricing plan 🙌
 
@@ -89,7 +91,19 @@ CVC Code: 242
 Zip: 42424
 ```
 
-Awesome right!
+And after signing up, you will be redirected to your application dashboard:
+
+![dashboard image](/public/img/dashboard.png)
+
+There will now be a new user in your database. You will also see a new entry in the `subscriptions` table:
+
+![database image](/public/img/subscriptions.png)
+
+Additionally, if you login to your stripe dashboard you will see that you now have a new customer.
+
+![stripe purchase image](/public/img/dashboard-home.png)
+
+🔮 Magic!
 
 #### Example 2 Test
 
