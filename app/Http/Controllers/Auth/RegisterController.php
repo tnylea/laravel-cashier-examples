@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Cashier\Exceptions\IncompletePayment;
 
 
 class RegisterController extends Controller
@@ -52,7 +53,13 @@ class RegisterController extends Controller
         DB::beginTransaction();
 
         event(new Registered($user = $this->create($request->all())));
-        $user->newSubscription('main', 'starter')->create($request->payment_method, ['email' => $user->email]);
+        
+        try {
+            $newSubscription = $user->newSubscription('main', 'starter')->create($request->payment_method, ['email' => $user->email]);
+        } catch ( IncompletePayment $exception ){
+            DB::rollback();
+            return redirect()->back()->with(['error_message' => $exception->getMessage()]);
+        }
 
         DB::commit();
 

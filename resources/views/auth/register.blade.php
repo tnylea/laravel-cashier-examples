@@ -4,6 +4,16 @@
     <div class="container mx-auto">
         <div class="flex flex-wrap justify-center">
             <div class="w-full max-w-sm">
+                @if(session('error_message'))
+                    <div role="alert" class="mb-4">
+                        <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                            Payment Failed
+                        </div>
+                        <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                            <p>{{ session('error_message') }}</p>
+                        </div>
+                    </div>
+                @endif
                 <div class="flex flex-col break-words bg-white border border-2 rounded shadow-md">
 
                     <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
