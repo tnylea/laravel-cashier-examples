@@ -15,14 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('timezone', function(){
-    echo date_default_timezone_get();
-});
-
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::post('billing', 'BillingController@index')->name('billing');
 

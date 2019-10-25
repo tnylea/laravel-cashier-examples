@@ -44,24 +44,6 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    public function register(Request $request)
-    {
-        $this->validator($request->all())->validate();
-
-
-        DB::beginTransaction();
-
-        event(new Registered($user = $this->create($request->all())));
-        $user->newSubscription('main', 'starter')->create($request->payment_method, ['email' => $user->email]);
-
-        DB::commit();
-
-        $this->guard()->login($user);
-
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
-    }
-
     /**
      * Get a validator for an incoming registration request.
      *

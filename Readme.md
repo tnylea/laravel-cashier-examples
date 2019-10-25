@@ -1,5 +1,7 @@
 # Laravel Cashier Examples
 
+![Laravel Cashier Examples image](/public/img/laravel-cashier-examples.png)
+
 The [Laravel Docs](https://laravel.com/docs) are great... But, there are a few things that seemed to be missing in the [Laravel Cashier Documentation](https://laravel.com/docs/billing), such as basic examples of how to submit the payment form in order to capture payment on the other end. Don't get me wrong, the docs are still amazing, but I wanted to create these examples that anyone can download and easily view a working version of [Cashier](https://github.com/laravel/cashier).
 
 This repo contains 2 examples of accepting payments:
@@ -109,9 +111,25 @@ Additionally, if you login to your stripe dashboard you will see that you now ha
 
 Make sure to checkout the `example2` branch to "Checkout" this example:
 
+In example2 the user can register for an account without adding a credit card at signup. Register for an account and you will see a Credit Card Input on the dashboard:
 
+![example 2 dashboard image](/public/img/example2-dashboard.png)
 
+You'll see that on the dashboard there is also a message stating that you are not subscribed to any plan. 
 
-## Payment Up Front on the Register Page (master branch)
+Try entering the following Credit Card info and subscribing:
 
-You may want to accept payments by requiring payment upon registration (with trial days or without). This functionality is stored in the `master` branch. Here are the steps
+```
+Credit Card Number: 4242 4242 4242 4242
+Expires: 04/24
+CVC Code: 242
+Zip: 42424
+```
+
+Upon entering the credit card info and clicking the **Subscribe** button, you will be redirected back to the dashboard showing a message that you are a subscribed customer 🤟
+
+![dashboard subscribed image](/public/img/subscribed.png)
+
+You will also see a new entry in the `subscriptions` table of your application, and you'll see a new customer in your Stripe Dashboard.
+
+👻 Scary Awesome!
