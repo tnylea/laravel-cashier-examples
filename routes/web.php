@@ -19,4 +19,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('billing', 'BillingController@index')->name('billing');
+Route::get('reprocess', 'BillingController@reprocess')->name('reprocess');
+
+Route::get('subme', function(){
+    //dd(auth()->user()->defaultPaymentMethod()->id);
+    auth()->user()->newSubscription('main', 'starter')->create(auth()->user()->defaultPaymentMethod()->id);
+})->name('subme');
 

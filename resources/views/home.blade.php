@@ -73,6 +73,14 @@
                     @endif
                 </div>
             </div>
+            
+            @if(auth()->user()->subscribed('main') && auth()->user()->subscription('main')->hasIncompletePayment())
+            <a href="{{ route('cashier.payment', auth()->user()->subscription('main')->latestPayment()->id) }}">
+                Please confirm your payment.
+            </a>
+            @else
+                Should be good to go
+            @endif
         </div>
     </div>
 @endsection
@@ -83,7 +91,6 @@
 
         <script>
             const stripe = Stripe('{{ env("STRIPE_KEY") }}');
-            console.log(stripe);
 
             const elements = stripe.elements();
             const cardElement = elements.create('card');
@@ -92,17 +99,12 @@
 
             const cardHolderName = document.getElementById('name');
             const cardButton = document.getElementById('card-button');
-            const clientSecret = cardButton.dataset.secret;
-            let validCard = false;
             const cardError = document.getElementById('card-errors');
 
             cardElement.addEventListener('change', function(event) {
-                
                 if (event.error) {
-                    validCard = false;
                     cardError.textContent = event.error.message;
                 } else {
-                    validCard = true;
                     cardError.textContent = '';
                 }
             });
@@ -110,7 +112,7 @@
             var form = document.getElementById('signup-form');
 
             form.addEventListener('submit', async (e) => {
-                event.preventDefault();
+                e.preventDefault();
 
                 const { paymentMethod, error } = await stripe.createPaymentMethod(
                     'card', cardElement, {
@@ -131,7 +133,6 @@
                     // Submit the form
                     form.submit();
                 }
-
             });
         
         </script>
