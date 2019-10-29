@@ -6,8 +6,8 @@ The [Laravel Docs](https://laravel.com/docs) are great... But, there are a few t
 
 This repo contains 2 examples of accepting payments:
 
-1. Accepting Payment Up Front on the Register Page **master** branch
-2. Accepting Payment for the currently logged in user **example2** branch.
+1. Accepting Payment Up Front on the Register Page **master** and **example3** branch
+2. Accepting Payment for the currently logged in user **example2** and **example4** branch.
 
 ## Installation
 
@@ -133,3 +133,19 @@ Upon entering the credit card info and clicking the **Subscribe** button, you wi
 You will also see a new entry in the `subscriptions` table of your application, and you'll see a new customer in your Stripe Dashboard.
 
 👻 Scary Awesome!
+
+#### Example 3 & Example 4
+
+Example 3 is similar to the master branch
+Example 4 is similar to example 3.
+
+The difference between example 3 and 4 is that they are able to support [SCA] (https://laravel.com/docs/6.x/billing#strong-customer-authentication).
+
+Master and Example 2 are leveraging the following JS method:
+
+[stripe.createPaymentMethod](https://stripe.com/docs/stripe-js/reference#stripe-create-payment-method)
+
+Whereas Example 3 and 4 are leveraging the following JS method:
+
+[stripe.handleCardSetup](https://stripe.com/docs/stripe-js/reference#stripe-handle-card-setup)
+These will handle any kind of SCA or Dynamic 3D Secure functionality. It might be ideal to stick with either Example3 or 4. If you use master or example 2, you'll want to manually redirect the user to the SCA page after they have purchased: [Payments Requiring Additional Confirmation](https://laravel.com/docs/6.x/billing#payments-requiring-additional-confirmation)
