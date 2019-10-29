@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Stripe\SetupIntent;
 use Illuminate\Http\Request;
+use Laravel\Cashier\Cashier;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $intent = SetupIntent::create(
+            [], Cashier::stripeOptions()
+        );
+        return view('home', compact('intent'));
     }
 }

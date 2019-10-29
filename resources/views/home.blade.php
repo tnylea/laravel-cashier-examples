@@ -56,7 +56,7 @@
                                     <div id="card-errors" class="text-red-400 text-bold mt-2 text-sm font-medium"></div>
                                 </div>
                                 
-                                <button type="submit" id="card-button" class="inline-block align-middle text-center select-none border font-bold whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline text-gray-100 bg-blue-500 hover:bg-blue-700 float-right mr-6">
+                                <button type="submit" id="card-button" data-secret="{{ $intent->client_secret }}" class="inline-block align-middle text-center select-none border font-bold whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline text-gray-100 bg-blue-500 hover:bg-blue-700 float-right mr-6">
                                     Subscribe
                                 </button>
                             </form>
@@ -74,13 +74,6 @@
                 </div>
             </div>
             
-            @if(auth()->user()->subscribed('main') && auth()->user()->subscription('main')->hasIncompletePayment())
-            <a href="{{ route('cashier.payment', auth()->user()->subscription('main')->latestPayment()->id) }}">
-                Please confirm your payment.
-            </a>
-            @else
-                Should be good to go
-            @endif
         </div>
     </div>
 @endsection
@@ -99,6 +92,7 @@
 
             const cardHolderName = document.getElementById('name');
             const cardButton = document.getElementById('card-button');
+            const clientSecret = cardButton.dataset.secret;
             const cardError = document.getElementById('card-errors');
 
             cardElement.addEventListener('change', function(event) {
@@ -114,9 +108,11 @@
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                const { paymentMethod, error } = await stripe.createPaymentMethod(
-                    'card', cardElement, {
-                        billing_details: { name: cardHolderName.value }
+                const { setupIntent, error } = await stripe.handleCardSetup(
+                    clientSecret, cardElement, {
+                        payment_method_data: {
+                            billing_details: { name: cardHolderName.value }
+                        }
                     }
                 );
 
@@ -128,7 +124,7 @@
                     var hiddenInput = document.createElement('input');
                     hiddenInput.setAttribute('type', 'hidden');
                     hiddenInput.setAttribute('name', 'payment_method');
-                    hiddenInput.setAttribute('value', paymentMethod.id);
+                    hiddenInput.setAttribute('value', setupIntent.payment_method);
                     form.appendChild(hiddenInput);
                     // Submit the form
                     form.submit();
