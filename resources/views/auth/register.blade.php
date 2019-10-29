@@ -83,7 +83,7 @@
 
                         <!-- Stripe Elements Placeholder -->
                         <div class="flex flex-wrap mt-6">
-                            <button type="submit" id="card-button" class="inline-block align-middle text-center select-none border font-bold whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline text-gray-100 bg-blue-500 hover:bg-blue-700">
+                            <button type="submit" id="card-button" data-secret="{{ $intent->client_secret }}" class="inline-block align-middle text-center select-none border font-bold whitespace-no-wrap py-2 px-4 rounded text-base leading-normal no-underline text-gray-100 bg-blue-500 hover:bg-blue-700" >
                                 {{ __('Register') }}
                             </button>
 
@@ -135,11 +135,13 @@
         var form = document.getElementById('signup-form');
 
         form.addEventListener('submit', async (e) => {
-            event.preventDefault();
+            e.preventDefault();
 
-            const { paymentMethod, error } = await stripe.createPaymentMethod(
-                'card', cardElement, {
-                    billing_details: { name: cardHolderName.value }
+            const { setupIntent, error } = await stripe.handleCardSetup(
+                clientSecret, cardElement, {
+                    payment_method_data: {
+                        billing_details: { name: cardHolderName.value }
+                    }
                 }
             );
 
@@ -147,11 +149,12 @@
                 // Display "error.message" to the user...
                 console.log(error);
             } else {
+                console.log(setupIntent);
                 // The card has been verified successfully...
                 var hiddenInput = document.createElement('input');
                 hiddenInput.setAttribute('type', 'hidden');
                 hiddenInput.setAttribute('name', 'payment_method');
-                hiddenInput.setAttribute('value', paymentMethod.id);
+                hiddenInput.setAttribute('value', setupIntent.payment_method);
                 form.appendChild(hiddenInput);
                 // Submit the form
                 form.submit();
